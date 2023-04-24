@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  e-wallet-backend:
+    build:
+      context: ./e-wallet-be
+      dockerfile: Dockerfile
+    image: "e-wallet-be"
+    container_name: e-wallet-be
+    restart: unless-stopped
+    networks:
+      - e-wallet
+    ports:
+      - "8080:8080"
+  e-wallet-frontend:
+    build:
+      context: ./e-wallet-fe
+      dockerfile: Dockerfile
+    image: "e-wallet-fe"
+    container_name: e-wallet-fe
+    restart: unless-stopped
+    depends_on:
+      - e-wallet-backend
+    networks:
+      - e-wallet
+    ports:
+      - "3000:3000"
+    links:
+      - e-wallet-backend
+networks:
+  e-wallet: { }

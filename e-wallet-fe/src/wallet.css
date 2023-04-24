@@ -1,0 +1,205 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* || UTILITY CLASSES */
+.errmsg {
+    color: firebrick;
+    text-align: center;
+}
+
+.errmsg ul li {
+    list-style-type: none;
+}
+
+/* || GENERAL STYLES */
+
+body {
+    font: 1.5rem 'Nunito', sans-serif;
+    min-height: 100vh;
+    background-color: #0F172A;
+    color: #fff;
+}
+
+input, textarea, button {
+    font: inherit;
+    padding: 0.5em;
+    border-radius: 15px;
+}
+
+div.back {
+    padding-top: 0.5em;
+}
+
+form {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+section {
+    width: min(100%, 1280px);
+    padding-top: 2em;
+}
+
+section .info {
+    text-align: center;
+}
+
+section.welcome, section.login, section.register, section.createWallet {
+    width: min(100%, 640px);
+    padding-top: 2em;
+}
+
+.register h1 {
+    text-align: center;
+}
+
+.wallets div#createWallet {
+    margin: 0.5em 0;
+}
+
+.wallet, .transactions {
+    border: 2px solid white;
+    border-radius: 1em;
+    padding: 1.5em;
+    margin: 0.5em 0;
+}
+
+.wallet p {
+    border-top: .01em solid white;
+    margin-top: 1em;
+    padding-top: 0.5em;
+}
+
+.wallet .wallet-name {
+    float: left;
+}
+
+.wallet .wallet-balance {
+    text-align: right;
+}
+
+.walletWidget {
+    text-align: center;
+    border: 2px solid white;
+    display: inline-block;
+    border-radius: 4em;
+    margin: .5em 1em .5em 0;
+    padding: 1em 0.5em;
+    user-select: none; /* Standard syntax */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+}
+
+.walletWidget .header {
+    float: right;
+    color: white;
+    background: cadetblue;
+    border-radius: 4em;
+    margin: -1.75em 1em 0 0;
+    padding: 0 0.5em;
+}
+
+.walletWidget .copyId {
+    cursor: grab;
+    float: right;
+    color: white;
+    background: cadetblue;
+    border-radius: 4em;
+    padding: 0 0.5em;
+}
+
+.walletWidget:hover, .walletWidget:focus {
+    transition: all .2s ease-in-out;
+    transform: scale(1.05);
+    cursor: pointer;
+    z-index: 1;
+}
+
+.walletActionWidgets {
+    text-align: center;
+}
+
+.walletActionWidget {
+    background: white;
+    color: #0F172A;
+    width: 10em;
+}
+
+.no-wallets {
+    text-align: center;
+    padding-top: 2em;
+}
+
+a, a:visited {
+    color: whitesmoke;
+}
+
+a:hover, a:focus {
+    color: rgba(245, 245, 245, 0.9);
+}
+
+/* || PAGES */
+
+.welcome {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.welcome header {
+    text-align: center;
+}
+
+.welcome main div {
+    border-top: 2px solid #fff;
+    padding: 1rem;
+}
+
+.welcome main section {
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    padding: 1rem;
+}
+
+.welcome footer span.right {
+    float: right;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+
+.collapsible {
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: larger;
+    font-weight: bold;
+    margin: .5em 0;
+    color: #0F172A;
+}
+
+.content {
+    padding: 1em;
+    background-color: #0F172A;
+    border: 2px solid white;
+    border-radius: 1em;
+    margin: 0.5em 0;
+}
+
+.content-parent {
+    transition: height ease 0.9s;
+}
