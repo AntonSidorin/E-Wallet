@@ -1,4 +1,7 @@
 # Wallet Manager
+[![E-Wallet CI Build](https://github.com/AntonSidorin/e-wallet/actions/workflows/maven.yml/badge.svg)](https://github.com/AntonSidorin/e-wallet/actions/workflows/maven.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AntonSidorin_e-wallet&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=AntonSidorin_e-wallet)
+
 Wallet Manager can help you to keep track of your income and expenses with quality info and keep track of
 your daily, monthly and yearly finances.
 
@@ -8,7 +11,7 @@ mvn clean package
 ```
 
 ## How to run
-* docker 
+* docker
 ```
 docker-compose up
 ```
