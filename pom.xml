@@ -9,6 +9,11 @@
     <name>e-wallet</name>
     <description>e-wallet</description>
 
+    <properties>
+        <sonar.organization>antonsidorin</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    </properties>
+
     <modules>
         <module>e-wallet-be</module>
         <module>e-wallet-fe</module>
