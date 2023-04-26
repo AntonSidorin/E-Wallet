@@ -1,5 +1,7 @@
-package com.wallet.dao;
+package com.wallet.dao.repository;
 
+import static com.wallet.dao.entity.Role.ADMIN;
+import static com.wallet.dao.entity.Role.USER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -39,18 +41,20 @@ class UserRepositoryTest {
         assertEquals(username, user.getUsername());
         assertNotNull(user.getFirstname());
         assertNotNull(user.getLastname());
-        Assertions.assertEquals(Role.USER, user.getRole());
+        Assertions.assertEquals(USER, user.getRole());
     }
 
     @Test
     void verifyRepositoryByPersistingAnUser() {
         User user = createUser();
+        user.setRole(ADMIN);
 
         assertNotNull(user.getUsername());
         String username = user.getUsername();
         repository.save(user);
 
         assertEquals(username, user.getUsername());
+        assertEquals(ADMIN, user.getRole());
     }
 
     @Test
@@ -72,7 +76,7 @@ class UserRepositoryTest {
                 "password",
                 "firstname",
                 "lastName",
-                Role.USER
+                USER
         );
     }
 }

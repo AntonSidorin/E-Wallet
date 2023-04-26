@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,15 @@ public class JwtService {
     @Value("${wallet.secret.key}")
     private String secretKey;
 
+    @Value("${wallet.auth.token.expiration.in.hours}")
+    private int expirationInHours;
+
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        try {
+            return extractClaim(token, Claims::getSubject);
+        } catch (Exception e) {
+            return StringUtils.EMPTY;
+        }
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -40,7 +48,7 @@ public class JwtService {
         Calendar now = Calendar.getInstance();
         Date issuedAt = now.getTime();
 
-        now.add(Calendar.HOUR_OF_DAY, 24);
+        now.add(Calendar.HOUR_OF_DAY, expirationInHours);
         Date expiration = now.getTime();
 
         return Jwts
@@ -58,11 +66,11 @@ public class JwtService {
     }
 
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+        try{
+            return extractClaim(token, Claims::getExpiration).before(new Date());
+        } catch (Exception e){
+            return true;
+        }
     }
 
     private Claims extractAllClaims(String token) {

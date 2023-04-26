@@ -71,9 +71,10 @@ class WalletBalanceService {
         createToTransaction("transfer" ,amount, toWallet);
 
         Optional<WalletDto> withdrawResult = withdrawFromWallet(fromWallet, amount);
-        Optional<WalletDto> topupResult = topupWallet(toWallet, amount);
 
-        return withdrawResult.isPresent() ? withdrawResult : topupResult;
+        topupWallet(toWallet, amount);
+
+        return withdrawResult;
 
     }
 
@@ -116,7 +117,7 @@ class WalletBalanceService {
     }
 
     private void validateBalance(Wallet wallet, BigDecimal amount) {
-        if(wallet != null && wallet.getBalance().compareTo(amount) < 0){
+        if(wallet.getBalance().compareTo(amount) < 0){
             throw new InsufficientFundsException(wallet.getId(), wallet.getName(), wallet.getBalance(), amount);
         }
     }

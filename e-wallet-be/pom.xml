@@ -181,6 +181,11 @@
                             <groupId>org.jacoco</groupId>
                             <artifactId>jacoco-maven-plugin</artifactId>
                             <version>0.8.9</version>
+                            <configuration>
+                                <excludes>
+                                    <exclude>com/wallet/WalletApplication.class</exclude>
+                                </excludes>
+                            </configuration>
                             <executions>
                                 <execution>
                                     <id>prepare-agent</id>
@@ -195,6 +200,7 @@
                                     </goals>
                                     <configuration>
                                         <formats>
+                                            <format>HTML</format>
                                             <format>XML</format>
                                         </formats>
                                     </configuration>
