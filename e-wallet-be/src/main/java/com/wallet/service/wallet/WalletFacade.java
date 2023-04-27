@@ -45,7 +45,7 @@ public class WalletFacade {
 
         String username = jwtService.extractUsername(token);
 
-        if (amount == null || amount.signum() == 0){
+        if (amount.signum() == 0){
             return walletService.getWalletById(username, walletId);
         } else if (amount.signum() < 0) {
             throw new NegativeAmountException(AMOUNT_IS_NEGATIVE_MESSAGE);
@@ -58,7 +58,7 @@ public class WalletFacade {
 
         String username = jwtService.extractUsername(token);
 
-        if (amount == null || amount.signum() == 0){
+        if (amount.signum() == 0){
             return walletService.getWalletById(username, walletId);
         } else if (amount.signum() < 0) {
             throw new NegativeAmountException(AMOUNT_IS_NEGATIVE_MESSAGE);
@@ -70,7 +70,7 @@ public class WalletFacade {
     public Optional<WalletDto> transfer(String token, String fromWalletId, String toWalletId, BigDecimal amount) {
         String username = jwtService.extractUsername(token);
 
-        if (amount == null || amount.signum() == 0){
+        if (amount.signum() == 0){
             return walletService.getWalletById(username, fromWalletId);
         } else if (amount.signum() < 0) {
             throw new NegativeAmountException(AMOUNT_IS_NEGATIVE_MESSAGE);
@@ -82,7 +82,9 @@ public class WalletFacade {
     public void delete(String token, String walletId) {
         walletService.delete(jwtService.extractUsername(token), walletId);
     }
+
     public List<TransactionDto> getTransactions(String token, String walletId) {
         return transactionService.getTransactions(jwtService.extractUsername(token), walletId);
     }
+
 }

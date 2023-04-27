@@ -1,4 +1,4 @@
-package com.wallet.dao;
+package com.wallet.dao.repository;
 
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;

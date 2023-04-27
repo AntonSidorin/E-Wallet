@@ -1,6 +1,8 @@
-package com.wallet.dao;
+package com.wallet.dao.repository;
 
+import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -12,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @DataJpaTest
@@ -29,17 +32,19 @@ class WalletRepositoryTest {
     }
 
     @Test
-    void persistUser() {
+    void persistWallet() {
+        LocalDateTime created = now().minusMinutes(1);
         Wallet wallet = createWallet();
+        wallet.setCreated(created);
 
         assertNull(wallet.getId());
         em.persist(wallet);
         assertNotNull(wallet.getId());
-        assertNotNull(wallet.getCreated());
+        assertNotEquals(created, wallet.getCreated());
     }
 
     @Test
-    void verifyRepositoryByPersistingUser() {
+    void verifyRepositoryByPersistingWallet() {
 
         Wallet wallet = createWallet();
 
@@ -53,7 +58,7 @@ class WalletRepositoryTest {
     }
 
     @Test
-    void findAnUserByUsername() {
+    void findWalletById() {
 
         //given
         Wallet wallet = repository.save(createWallet());

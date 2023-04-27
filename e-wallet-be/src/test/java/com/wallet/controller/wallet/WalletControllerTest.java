@@ -226,4 +226,5 @@ class WalletControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(), WalletDto.class);
     }
+
 }
