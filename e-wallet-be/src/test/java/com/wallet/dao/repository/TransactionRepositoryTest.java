@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.wallet.dao.entity.Transaction;
 import com.wallet.dao.entity.Wallet;
-import com.wallet.dao.repository.TransactionRepository;
-import com.wallet.dao.repository.WalletRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

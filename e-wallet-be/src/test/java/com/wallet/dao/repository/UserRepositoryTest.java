@@ -5,9 +5,7 @@ import static com.wallet.dao.entity.Role.USER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.wallet.dao.entity.Role;
 import com.wallet.dao.entity.User;
-import com.wallet.dao.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
