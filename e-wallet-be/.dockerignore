@@ -1,1 +1,5 @@
 target
+lombok.config
+.dockerignore
+Dockerfile
+.gitignore
