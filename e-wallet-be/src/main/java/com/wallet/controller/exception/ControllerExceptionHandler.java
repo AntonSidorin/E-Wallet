@@ -2,7 +2,6 @@ package com.wallet.controller.exception;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import com.wallet.exception.InsufficientFundsException;
@@ -10,7 +9,6 @@ import com.wallet.exception.NegativeAmountException;
 import com.wallet.exception.UserFoundException;
 import com.wallet.exception.WalletBalanceIsNotZero;
 import com.wallet.exception.WalletNotFoundException;
-import io.jsonwebtoken.MalformedJwtException;
 import jakarta.validation.ConstraintViolationException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,13 +27,13 @@ public class ControllerExceptionHandler {
 
     @ResponseStatus(CONFLICT)
     @ExceptionHandler(UserFoundException.class)
-    ErrorResult handleUserFoundExceptionException(UserFoundException e) {
+    ErrorResult handleUserFoundException(UserFoundException e) {
         return ErrorResult.builder().addMessage("User " + e.getUsername() + " has been already registered.");
     }
 
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(WalletNotFoundException.class)
-    ErrorResult handleWalletNotFoundExceptionException(WalletNotFoundException e) {
+    ErrorResult handleWalletNotFoundException(WalletNotFoundException e) {
         String username = e.getUsername();
         String message = "Wallet " + e.getWalletId() + " has not been found.";
         if (StringUtils.isNoneBlank(username)) {
@@ -46,19 +44,19 @@ public class ControllerExceptionHandler {
 
     @ResponseStatus(CONFLICT)
     @ExceptionHandler(NegativeAmountException.class)
-    ErrorResult handleNegativeAmountExceptionException(NegativeAmountException e) {
+    ErrorResult handleNegativeAmountException(NegativeAmountException e) {
         return ErrorResult.builder().addMessage(e.getMessage());
     }
 
     @ResponseStatus(CONFLICT)
     @ExceptionHandler(InsufficientFundsException.class)
-    ErrorResult handleInsufficientFundsExceptionException(InsufficientFundsException e) {
+    ErrorResult handleInsufficientFundsException(InsufficientFundsException e) {
         return ErrorResult.builder().addMessage("Wallet has insufficient funds " + e.getBalance());
     }
 
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    ErrorResult handleValidationExceptionException(MethodArgumentNotValidException e) {
+    ErrorResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         ErrorResult builder = ErrorResult.builder();
         e.getBindingResult().getAllErrors().forEach(error -> builder.addMessage(error.getDefaultMessage()));
         return builder;
