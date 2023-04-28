@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   e-wallet-backend:
@@ -19,12 +19,13 @@ services:
     image: "e-wallet-fe"
     container_name: e-wallet-fe
     restart: unless-stopped
+    stdin_open: true
     depends_on:
       - e-wallet-backend
     networks:
       - e-wallet
     ports:
-      - "3000:3000"
+      - "3000:80"
     links:
       - e-wallet-backend
 networks:
