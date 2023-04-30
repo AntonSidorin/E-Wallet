@@ -20,7 +20,7 @@ const Transfer = ({walletId}) => {
 
   useEffect(() => {
     setErrMsg('');
-  }, [amount, setErrMsg]);
+  }, [amount, transferWalletId, setErrMsg]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

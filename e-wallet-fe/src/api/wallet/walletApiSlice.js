@@ -6,7 +6,7 @@ export const walletApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     createWallet: builder.mutation({
       query: wallet => ({
-        url: '/api/v1/wallet',
+        url: '/api/v1/wallets',
         method: 'POST',
         body: { ...wallet },
       }),
@@ -14,7 +14,7 @@ export const walletApiSlice = apiSlice.injectEndpoints({
     }),
     topupWallet: builder.mutation({
       query: ({ walletId, amount }) => ({
-        url: `/api/v1/wallet/${walletId}/topup/${amount}`,
+        url: `/api/v1/wallets/${walletId}/topup/${amount}`,
         method: 'PATCH',
       }),
       async onQueryStarted({ walletId, ...patch }, { dispatch, queryFulfilled }) {
@@ -31,7 +31,7 @@ export const walletApiSlice = apiSlice.injectEndpoints({
     }),
     withdrawWallet: builder.mutation({
       query: ({ walletId, amount }) => ({
-        url: `/api/v1/wallet/${walletId}/withdraw/${amount}`,
+        url: `/api/v1/wallets/${walletId}/withdraw/${amount}`,
         method: 'PATCH',
       }),
       async onQueryStarted({ walletId, ...patch }, { dispatch, queryFulfilled }) {
@@ -48,7 +48,7 @@ export const walletApiSlice = apiSlice.injectEndpoints({
     }),
     transfer: builder.mutation({
       query: ({ walletId, transferWalletId, amount }) => ({
-        url: `/api/v1/wallet/${walletId}/transfer/${transferWalletId}/${amount}`,
+        url: `/api/v1/wallets/${walletId}/transfer/${transferWalletId}/${amount}`,
         method: 'PATCH',
       }),
       async onQueryStarted({ walletId, ...patch }, { dispatch, queryFulfilled }) {
@@ -64,7 +64,7 @@ export const walletApiSlice = apiSlice.injectEndpoints({
       },
     }),
     getWallets: builder.query({
-      query: () => '/api/v1/wallet',
+      query: () => '/api/v1/wallets',
       keepUnusedDataFor: 0,
       providesTags: (result) =>
         result
@@ -73,12 +73,12 @@ export const walletApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Transaction'],
     }),
     getWallet: builder.query({
-      query: id => `/api/v1/wallet/${id}`,
+      query: id => `/api/v1/wallets/${id}`,
       providesTags: (result) => [{ type: 'Wallet', id: result.id }],
       invalidatesTags: ['Transaction'],
     }),
     getWalletTransactions: builder.query({
-      query: walletId => `/api/v1/wallet/${walletId}/transactions`,
+      query: walletId => `/api/v1/wallets/${walletId}/transactions`,
       providesTags: ['Transaction']
     }),
   }),

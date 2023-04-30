@@ -19,6 +19,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -38,7 +40,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Wallet API")
-@RequestMapping("/api/v1/wallet")
+@RequestMapping("/api/v1/wallets")
 public class WalletController {
 
     private final WalletFacade walletFacade;
@@ -46,11 +48,12 @@ public class WalletController {
     @Operation(summary = "Create Wallet")
     @Parameter(in = ParameterIn.HEADER, name = AUTHORIZATION, description = "JWT token", required = true, schema = @Schema(type = "String"))
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful response."),
+            @ApiResponse(responseCode = "201", description = "Successful response."),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = ErrorResult.class)))}),
             @ApiResponse(responseCode = "403", description = "JWT token is not valid.", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = ErrorResult.class)))}),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = ErrorResult.class)))})
     })
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = "application/json", consumes = "application/json")
     public WalletDto create(@RequestHeader(name = AUTHORIZATION) @NotBlank String token, @RequestBody @Valid WalletDto walletDto) {
         return walletFacade.create(token, walletDto);
@@ -177,12 +180,13 @@ public class WalletController {
     @Parameter(in = ParameterIn.HEADER, name = AUTHORIZATION, description = "JWT token", required = true, schema = @Schema(type = "String"))
     @Parameter(in = ParameterIn.PATH, name = "walletId", description = "From Wallet Id", required = true, schema = @Schema(type = "String"))
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful response."),
+            @ApiResponse(responseCode = "204", description = "Successful response."),
             @ApiResponse(responseCode = "400", description = "Bad request.", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = ErrorResult.class)))}),
             @ApiResponse(responseCode = "403", description = "JWT token is not valid.", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = ErrorResult.class)))}),
             @ApiResponse(responseCode = "409", description = "Wallet has non 0 balance", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = ErrorResult.class)))}),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = {@Content(array = @ArraySchema(schema = @Schema(implementation = ErrorResult.class)))})
     })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = "/{walletId}")
     public void delete(@RequestHeader(name = AUTHORIZATION) @NotBlank String token,
                        @PathVariable("walletId") @NotBlank String walletId) {

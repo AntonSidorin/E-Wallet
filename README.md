@@ -5,6 +5,12 @@
 Wallet Manager can help you to keep track of your income and expenses with quality info and keep track of
 your daily, monthly and yearly finances.
 
+## Dev environment
+Add proxy in package.json to http://localhost:8080/
+```
+"proxy":"http://localhost:8080"
+```
+
 ## How to build
 ```
 mvn clean package
