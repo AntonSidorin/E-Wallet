@@ -27,7 +27,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Wallet Transactions API")
-@RequestMapping("/api/v1/wallet/{walletId}")
+@RequestMapping("/api/v1/wallets/{walletId}")
 public class TransactionController {
 
     private final WalletFacade walletFacade;

@@ -28,7 +28,7 @@ class WalletControllerTest extends AbstractControllerTest {
     @Test
     void unauthorisedAccessToWalletApi() throws Exception {
         String walletId = "walletId";
-        mockMvc.perform(get("/api/v1/wallet/{walletId}", walletId)
+        mockMvc.perform(get("/api/v1/wallets/{walletId}", walletId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }
@@ -56,7 +56,7 @@ class WalletControllerTest extends AbstractControllerTest {
         );
 
         List<WalletDto> wallets = mapper.readValue(
-                mockMvc.perform(get("/api/v1/wallet")
+                mockMvc.perform(get("/api/v1/wallets")
                                 .header(HttpHeaders.AUTHORIZATION, token)
                         )
                         .andExpect(status().isOk())
@@ -86,7 +86,7 @@ class WalletControllerTest extends AbstractControllerTest {
         String walletId = wallet.id();
         BigDecimal amount = BigDecimal.TEN;
         WalletDto replenishedWallet = mapper.readValue(
-                mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wallet/{walletId}/topup/{amount}", walletId, amount)
+                mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wallets/{walletId}/topup/{amount}", walletId, amount)
                                 .header(HttpHeaders.AUTHORIZATION, token)
                         )
                         .andExpect(status().isOk())
@@ -100,7 +100,7 @@ class WalletControllerTest extends AbstractControllerTest {
         assertEquals(BigDecimal.TEN.setScale(2, RoundingMode.UP), replenishedWallet.balance());
 
         //check balance
-        mockMvc.perform(get("/api/v1/wallet/{walletId}/balance", walletId)
+        mockMvc.perform(get("/api/v1/wallets/{walletId}/balance", walletId)
                         .header(HttpHeaders.AUTHORIZATION, token)
                 )
                 .andExpect(status().isOk())
@@ -130,7 +130,7 @@ class WalletControllerTest extends AbstractControllerTest {
         BigDecimal amount = BigDecimal.ONE;
         BigDecimal expectedBalance = initialBalance.subtract(amount).setScale(2, RoundingMode.UP);
         WalletDto replenishedWallet = mapper.readValue(
-                mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wallet/{walletId}/withdraw/{amount}", walletId, amount)
+                mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wallets/{walletId}/withdraw/{amount}", walletId, amount)
                                 .header(HttpHeaders.AUTHORIZATION, token)
                         )
                         .andExpect(status().isOk())
@@ -173,7 +173,7 @@ class WalletControllerTest extends AbstractControllerTest {
         WalletDto afterTransferWallet = mapper.readValue(
                 mockMvc.perform(
                                 MockMvcRequestBuilders
-                                        .patch("/api/v1/wallet/{fromWalletId}/transfer/{toWalletId}/{amount}", fromWalletId, toWalletId, amount)
+                                        .patch("/api/v1/wallets/{fromWalletId}/transfer/{toWalletId}/{amount}", fromWalletId, toWalletId, amount)
                                         .header(HttpHeaders.AUTHORIZATION, token)
                         )
                         .andExpect(status().isOk())
@@ -211,9 +211,9 @@ class WalletControllerTest extends AbstractControllerTest {
         assertEquals(initialBalance, wallet.balance());
 
         String walletId = wallet.id();
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/wallet/{walletId}", walletId)
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/wallets/{walletId}", walletId)
                         .header(HttpHeaders.AUTHORIZATION, token))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         WalletDto deletedWallet = getWallet(token, walletId);
 
@@ -221,7 +221,7 @@ class WalletControllerTest extends AbstractControllerTest {
     }
 
     private WalletDto getWallet(String token, String walletId) throws Exception {
-        return mapper.readValue(mockMvc.perform(get("/api/v1/wallet/{walletId}", walletId)
+        return mapper.readValue(mockMvc.perform(get("/api/v1/wallets/{walletId}", walletId)
                         .header(HttpHeaders.AUTHORIZATION, token))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(), WalletDto.class);

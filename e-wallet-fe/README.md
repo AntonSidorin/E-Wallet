@@ -2,9 +2,6 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Dev environment
-Change proxy in package.json from to http://e-wallet-be:8080/ to http://localhost:8080/
-
 ## Available Scripts
 
 In the project directory, you can run:

@@ -36,11 +36,11 @@ public abstract class AbstractControllerTest {
 
     protected WalletDto createWallet(String token, WalletDto wallet) throws Exception {
         return mapper.readValue(
-                mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/wallet")
+                mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/wallets")
                                 .header(HttpHeaders.AUTHORIZATION, token)
                                 .content(mapper.writeValueAsBytes(wallet))
                                 .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk())
+                        .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
                         .getContentAsString(), WalletDto.class);
