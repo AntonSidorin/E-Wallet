@@ -39,7 +39,7 @@ class ControllerExceptionHandlerTest extends AbstractControllerTest {
         String token = getTokenViaRegistry(username);
 
         String walletId = "walletId";
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/wallet/{walletId}", walletId)
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/wallets/{walletId}", walletId)
                         .header(HttpHeaders.AUTHORIZATION, token))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.messages", hasSize(1)))
@@ -64,7 +64,7 @@ class ControllerExceptionHandlerTest extends AbstractControllerTest {
         String walletId = StringUtils.EMPTY;
         BigDecimal amount = BigDecimal.TEN;
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wallet/{walletId}/topup/{amount}", walletId, amount)
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wallets/{walletId}/topup/{amount}", walletId, amount)
                         .header(HttpHeaders.AUTHORIZATION, token)
                 )
                 .andExpect(status().isBadRequest());
@@ -86,7 +86,7 @@ class ControllerExceptionHandlerTest extends AbstractControllerTest {
         assertEquals(initialBalance, wallet.balance());
 
         String walletId = wallet.id();
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/wallet/{walletId}", walletId)
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/wallets/{walletId}", walletId)
                         .header(HttpHeaders.AUTHORIZATION, token))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.messages", hasSize(1)))
@@ -118,7 +118,7 @@ class ControllerExceptionHandlerTest extends AbstractControllerTest {
         String token = getTokenViaRegistry(username);
 
         String walletId = "walletId";
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/wallet/{walletId}/balance", walletId)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/wallets/{walletId}/balance", walletId)
                         .header(HttpHeaders.AUTHORIZATION, token))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.messages", hasSize(1)))
@@ -144,7 +144,7 @@ class ControllerExceptionHandlerTest extends AbstractControllerTest {
         String walletId = wallet.id();
         BigDecimal amount = BigDecimal.TEN;
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wallet/{walletId}/withdraw/{amount}", walletId, amount)
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wallets/{walletId}/withdraw/{amount}", walletId, amount)
                         .header(HttpHeaders.AUTHORIZATION, token)
                 )
                 .andExpect(status().isConflict())
@@ -160,7 +160,7 @@ class ControllerExceptionHandlerTest extends AbstractControllerTest {
         String token = getTokenViaRegistry("user_wallet_without_name");
 
         //create wallet
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/wallet")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/wallets")
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .content(mapper.writeValueAsBytes(
                                 new WalletDto(null, null, "Wallet description", BigDecimal.ONE))
@@ -191,7 +191,7 @@ class ControllerExceptionHandlerTest extends AbstractControllerTest {
         String walletId = wallet.id();
         BigDecimal amount = BigDecimal.valueOf(20000);
 
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wallet/{walletId}/withdraw/{amount}", walletId, amount)
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/wallets/{walletId}/withdraw/{amount}", walletId, amount)
                         .header(HttpHeaders.AUTHORIZATION, token)
                 )
                 .andExpect(status().isBadRequest())
