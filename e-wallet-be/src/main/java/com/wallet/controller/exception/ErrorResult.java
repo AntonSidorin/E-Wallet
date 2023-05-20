@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-
 public class ErrorResult {
 
     private final List<String> messages = new ArrayList<>();

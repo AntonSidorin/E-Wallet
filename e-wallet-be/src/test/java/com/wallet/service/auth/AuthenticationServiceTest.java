@@ -2,6 +2,8 @@ package com.wallet.service.auth;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.when;
 
 import com.wallet.controller.auth.AuthenticationRequest;
@@ -11,13 +13,10 @@ import com.wallet.dao.entity.User;
 import com.wallet.dao.repository.UserRepository;
 import com.wallet.exception.UserFoundException;
 import com.wallet.security.JwtService;
-import com.wallet.service.mapper.user.UserToUserDtoMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,9 +40,6 @@ class AuthenticationServiceTest {
     @Spy
     private AuthenticationManager authenticationManager;
 
-    @Spy
-    private UserToUserDtoMapper userToUserDtoMapper = new UserToUserDtoMapper();
-
     @InjectMocks
     private AuthenticationService authenticationService;
 
@@ -62,18 +58,17 @@ class AuthenticationServiceTest {
                 username,
                 password
         );
-        when(repository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(repository.save(any(User.class))).thenAnswer(i -> i.getArguments()[0]);
 
         String token = "token";
-        when(jwtService.generateToken(Mockito.any(UserDetails.class))).thenReturn(token);
+        when(jwtService.generateToken(anyMap(), any(UserDetails.class))).thenReturn(token);
 
         //when
         AuthenticationResponse response = authenticationService.register(request);
 
         //then
         assertEquals(token, response.getToken());
-        Assertions.assertEquals(firstname, response.getUser().firstname());
-        Assertions.assertEquals(lastname, response.getUser().lastname());
+
     }
 
     @Test
@@ -91,7 +86,7 @@ class AuthenticationServiceTest {
                 username,
                 password
         );
-        when(repository.save(Mockito.any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(repository.save(any(User.class))).thenAnswer(i -> i.getArguments()[0]);
         when(repository.findByUsername(username))
                 .thenReturn(Optional.empty())
                 .thenReturn(
@@ -99,7 +94,7 @@ class AuthenticationServiceTest {
                 );
 
         String token = "token";
-        when(jwtService.generateToken(Mockito.any(UserDetails.class))).thenReturn(token);
+        when(jwtService.generateToken(anyMap(), any(UserDetails.class))).thenReturn(token);
 
         //when
         authenticationService.register(request);
@@ -128,7 +123,7 @@ class AuthenticationServiceTest {
         when(repository.findByUsername(username)).thenReturn(Optional.of(user));
 
         String token = "token";
-        when(jwtService.generateToken(Mockito.any(UserDetails.class))).thenReturn(token);
+        when(jwtService.generateToken(anyMap(), any(UserDetails.class))).thenReturn(token);
 
         //when
         AuthenticationResponse response = authenticationService
@@ -136,8 +131,7 @@ class AuthenticationServiceTest {
 
         //then
         assertEquals(token, response.getToken());
-        Assertions.assertEquals(firstname, response.getUser().firstname());
-        Assertions.assertEquals(lastname, response.getUser().lastname());
+
     }
 
 }
