@@ -10,6 +10,5 @@ import java.util.Optional;
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, String> {
     Optional<Wallet> findByUsernameAndId(String username, String walletId);
-
     List<Wallet> findAllByUsernameOrderByCreatedAsc(String username);
 }

@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
     @Query(value = """
-            SELECT t 
-            FROM Transaction t 
-            WHERE t.username = :username AND t.walletId = :walletId 
+            SELECT t
+            FROM Transaction t
+            WHERE t.username = :username AND t.walletId = :walletId
             ORDER BY t.transactionDate DESC
             """)
     List<Transaction> findByUsernameAndWalletId(
