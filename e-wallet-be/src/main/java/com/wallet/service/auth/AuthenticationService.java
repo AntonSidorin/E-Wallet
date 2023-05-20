@@ -7,13 +7,15 @@ import com.wallet.dao.entity.User;
 import com.wallet.dao.repository.UserRepository;
 import com.wallet.exception.UserFoundException;
 import com.wallet.security.JwtService;
-import com.wallet.service.mapper.user.UserToUserDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +28,6 @@ public class AuthenticationService {
     private final JwtService jwtService;
 
     private final AuthenticationManager authenticationManager;
-
-    private final UserToUserDtoMapper userToUserDtoMapper;
 
     public AuthenticationResponse register(RegisterRequest request) {
 
@@ -45,11 +45,7 @@ public class AuthenticationService {
                         .role(Role.USER)
                         .build());
 
-
-        return AuthenticationResponse.builder()
-                .user(userToUserDtoMapper.apply(user))
-                .token(jwtService.generateToken(user))
-                .build();
+        return createResponse(user);
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -66,9 +62,17 @@ public class AuthenticationService {
                 .findByUsername(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(request.getUsername()));
 
+        return createResponse(user);
+    }
+
+    private AuthenticationResponse createResponse(User user){
+
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("firstname", user.getFirstname());
+        extraClaims.put("lastname", user.getLastname());
+
         return AuthenticationResponse.builder()
-                .user(userToUserDtoMapper.apply(user))
-                .token(jwtService.generateToken(user))
+                .token(jwtService.generateToken(extraClaims, user))
                 .build();
     }
 
